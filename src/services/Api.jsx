@@ -198,9 +198,10 @@ export const deleteReport = async (reportId) => {
 // 결과 분석 API 호출
 export const getResult = async (keyword) => {
   try {
-    const response = await apiClient.post(API_URLS.GET_RESULT, {
-      keyword,
-    })
+    const response = await apiClient.post(
+      `${API_URLS.GET_RESULT}?keyword=${encodeURIComponent(keyword)}`,
+      {},
+    )
     return response.data
   } catch (error) {
     handleApiError(error)

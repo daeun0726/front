@@ -7,10 +7,12 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Bookmark } from './Bookmark'
 import { Search } from './Search'
 import { AuthContext } from '../../contexts/AuthContext'
+import { useSearch } from '../../contexts/SearchContext'
 
 export const SideBar = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const { auth, logout } = useContext(AuthContext)
+  const { updateSearchState } = useSearch()
 
   const navigate = useNavigate()
 
@@ -20,9 +22,30 @@ export const SideBar = () => {
     navigate('/')
   }
 
+  const handleLogoClick = () => {
+    updateSearchState({
+      keyword: '',
+      relatedKeywords: [],
+      startDate: '',
+      endDate: '',
+      timeUnit: '',
+      device: '',
+      gender: '',
+      ages: [],
+      comparisonTarget: '',
+      comparisonKeywords: [],
+      resultData: null,
+      datalabData: null,
+      loading: false,
+      error: null,
+    })
+  }
+
   return (
     <SidebarContainer>
-      <Logo to="/dashboard">OrangeFarm</Logo>
+      <Logo to="/dashboard" onClick={handleLogoClick}>
+        OrangeFarm
+      </Logo>
 
       <NavSection>
         <Search />

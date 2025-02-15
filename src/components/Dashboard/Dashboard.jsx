@@ -123,6 +123,7 @@ export const Dashboard = () => {
 const Layout = styled.div`
   display: grid;
   height: 98.4vh;
+  background-color: #f9fafb;
 `
 const ContentWrapper = styled.div`
   background-color: #f9fafb;
