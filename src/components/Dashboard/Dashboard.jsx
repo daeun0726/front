@@ -59,110 +59,68 @@ export const Dashboard = () => {
   return (
     <Layout>
       <ContentWrapper>
-        <Box p={4}>
-          <TitleContainer>
-            <Typography variant="h4" gutterBottom>
-              {searchState.keyword || 'Search Keyword'}
-            </Typography>
-            <StarIcon onClick={handleStarClick}>
-              {isStarred ? (
-                <FaStar size={24} color="gold" />
-              ) : (
-                <FaRegStar size={24} color="gray" />
-              )}
-            </StarIcon>
-          </TitleContainer>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={3}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">Total User</Typography>
-                  <Typography variant="h4">40,689</Typography>
-                  <Typography color="text.secondary" variant="body2">
-                    8.5% Up from yesterday
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">Total Order</Typography>
-                  <Typography variant="h4">10,293</Typography>
-                  <Typography color="text.secondary" variant="body2">
-                    1.3% Up from past week
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">Total Sales</Typography>
-                  <Typography variant="h4">$89,000</Typography>
-                  <Typography color="error" variant="body2">
-                    4.3% Down from yesterday
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} md={3}>
-              <Card variant="outlined">
-                <CardContent>
-                  <Typography variant="h6">Total Pending</Typography>
-                  <Typography variant="h4">2,040</Typography>
-                  <Typography color="text.secondary" variant="body2">
-                    1.8% Up from yesterday
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+        {!searchState.keyword ? (
+          // 검색어가 없으면 ContentWrapper만 표시
+          <Typography variant="h6">검색어를 입력해주세요.</Typography>
+        ) : (
+          <Box p={4}>
+            <TitleContainer>
+              <Typography variant="h4" gutterBottom>
+                {searchState.keyword}
+              </Typography>
+              <StarIcon onClick={handleStarClick}>
+                {isStarred ? (
+                  <FaStar size={24} color="gold" />
+                ) : (
+                  <FaRegStar size={24} color="gray" />
+                )}
+              </StarIcon>
+            </TitleContainer>
 
-          {/* 감정 분석 차트 */}
-          <Box mt={4}>
-            <Typography variant="h5" gutterBottom>
-              Sentiment Analysis
-            </Typography>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart
-                data={sentimentData}
-                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-              >
-                <Line type="monotone" dataKey="sentiment" stroke="#8884d8" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </ResponsiveContainer>
-          </Box>
+            {/* 감정 분석 차트 */}
+            <Box mt={4}>
+              <Typography variant="h5" gutterBottom>
+                Sentiment Analysis
+              </Typography>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart
+                  data={sentimentData}
+                  margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+                >
+                  <Line type="monotone" dataKey="sentiment" stroke="#8884d8" />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                  <XAxis dataKey="date" />
+                  <YAxis />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
+            </Box>
 
-          {/* 검색 트렌드 차트 */}
-          <Box mt={4}>
-            <Typography variant="h5" gutterBottom>
-              Search Trend
-            </Typography>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart
-                data={searchTrendData}
-                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-              >
-                <Line type="monotone" dataKey="value" stroke="#82ca9d" />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </ResponsiveContainer>
+            {/* 검색 트렌드 차트 */}
+            <Box mt={4}>
+              <Typography variant="h5" gutterBottom>
+                Search Trend
+              </Typography>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart
+                  data={searchTrendData}
+                  margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+                >
+                  <Line type="monotone" dataKey="value" stroke="#82ca9d" />
+                  <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                </LineChart>
+              </ResponsiveContainer>
+            </Box>
           </Box>
-        </Box>
+        )}
       </ContentWrapper>
     </Layout>
   )
 }
 const Layout = styled.div`
-  background-color: aqua;
   display: grid;
   height: 98.4vh;
 `

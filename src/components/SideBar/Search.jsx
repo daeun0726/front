@@ -28,6 +28,20 @@ export const Search = () => {
   //   searchState.isComparisonDisabled,
   // )
 
+  const ageLabels = {
+    1: '0∼12세',
+    2: '13∼18세',
+    3: '19∼24세',
+    4: '25∼29세',
+    5: '30∼34세',
+    6: '35∼39세',
+    7: '40∼44세',
+    8: '45∼49세',
+    9: '50∼54세',
+    10: '55∼59세',
+    11: '60세 이상',
+  }
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     if (name === 'keyword') setKeyword(value)
@@ -124,63 +138,71 @@ export const Search = () => {
           </FieldLabel>
           <FieldLabel>
             기간 단위
-            {['day', 'week', 'month'].map((unit) => (
-              <RadioInput key={unit}>
-                <input
-                  type="radio"
-                  name="timeUnit"
-                  value={unit}
-                  checked={timeUnit === unit}
-                  onChange={handleInputChange}
-                />{' '}
-                {unit}
-              </RadioInput>
-            ))}
+            <FieldLabelRadio>
+              {['day', 'week', 'month'].map((unit) => (
+                <RadioInput key={unit}>
+                  <input
+                    type="radio"
+                    name="timeUnit"
+                    value={unit}
+                    checked={timeUnit === unit}
+                    onChange={handleInputChange}
+                  />{' '}
+                  {unit}
+                </RadioInput>
+              ))}
+            </FieldLabelRadio>
           </FieldLabel>
           <FieldLabel>
             기기 유형
-            {['mo', 'pc'].map((d) => (
-              <RadioInput key={d}>
-                <input
-                  type="radio"
-                  name="device"
-                  value={d}
-                  checked={device === d}
-                  onChange={handleInputChange}
-                />{' '}
-                {d}
-              </RadioInput>
-            ))}
+            <FieldLabelRadio>
+              {['mo', 'pc'].map((d) => (
+                <RadioInput key={d}>
+                  <input
+                    type="radio"
+                    name="device"
+                    value={d}
+                    checked={device === d}
+                    onChange={handleInputChange}
+                  />{' '}
+                  {d}
+                </RadioInput>
+              ))}
+            </FieldLabelRadio>
           </FieldLabel>
           <FieldLabel>
             성별
-            {['m', 'f'].map((g) => (
-              <RadioInput key={g}>
-                <input
-                  type="radio"
-                  name="gender"
-                  value={g}
-                  checked={gender === g}
-                  onChange={handleInputChange}
-                />{' '}
-                {g}
-              </RadioInput>
-            ))}
+            <FieldLabelRadio>
+              {['m', 'f'].map((g) => (
+                <RadioInput key={g}>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value={g}
+                    checked={gender === g}
+                    onChange={handleInputChange}
+                  />{' '}
+                  {g}
+                </RadioInput>
+              ))}
+            </FieldLabelRadio>
           </FieldLabel>
           <FieldLabel>
             연령대
-            {[...'12345678910'].map((age) => (
-              <CheckboxInput key={age}>
-                <input
-                  type="checkbox"
-                  name="ages"
-                  value={age}
-                  checked={ages.includes(age)}
-                  onChange={handleInputChange}
-                />{' '}
-                {age}
-              </CheckboxInput>
-            ))}
+            <CheckboxGroup>
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((age) => (
+                <CheckboxInput key={age}>
+                  <input
+                    type="checkbox"
+                    name="ages"
+                    value={age}
+                    checked={ages.includes(String(age))}
+                    onChange={handleInputChange}
+                  />
+                  {age}: {ageLabels[age]}
+                </CheckboxInput>
+              ))}
+            </CheckboxGroup>
           </FieldLabel>
           <FieldLabel>
             비교 대상
@@ -189,7 +211,7 @@ export const Search = () => {
               name="comparisonTarget"
               value={comparisonTarget}
               placeholder="비교 대상"
-              disabled={isComparisonDisabled}
+              // disabled={isComparisonDisabled}
               onChange={handleInputChange}
             />
           </FieldLabel>
@@ -200,7 +222,7 @@ export const Search = () => {
               name="comparisonKeywords"
               value={comparisonKeywords.join(',')}
               placeholder="비교 대상 키워드"
-              disabled={isComparisonDisabled}
+              // disabled={isComparisonDisabled}
               onChange={handleInputChange}
             />
           </FieldLabel>
@@ -264,7 +286,7 @@ const CheckboxContainer = styled.div`
   font-size: 10px;
 `
 
-const Checkbox = styled.input``
+// const Checkbox = styled.input``
 
 // const SearchButton = styled.button`
 //   background-color: black;
@@ -281,6 +303,11 @@ const FieldLabel = styled.label`
   flex-direction: column;
   gap: 5px;
 `
+const FieldLabelRadio = styled.label`
+  display: flex;
+  flex-direction: row;
+`
+
 const RadioInput = styled.div`
   display: flex;
   gap: 10px;
@@ -302,4 +329,26 @@ const SearchButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`
+const CheckboxInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+`
+
+const Checkbox = styled.input`
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+`
+
+const CheckboxGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `
