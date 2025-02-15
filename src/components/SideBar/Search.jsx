@@ -281,11 +281,11 @@ const FieldLabel = styled.label`
   flex-direction: column;
   gap: 5px;
 `
-// const RadioGroup = styled.div`
-//   display: flex;
-//   gap: 10px;
-//   margin-top: 5px;
-// `
+const RadioInput = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+`
 
 // const CheckboxGroup = styled.div`
 //   display: flex;
