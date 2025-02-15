@@ -78,6 +78,7 @@ export const SearchProvider = ({ children }) => {
 
     updateSearchState({ loading: true, error: null }) // 로딩 시작
     try {
+      console.log('fetchDatalab body:', body)
       const data = await getDatalab(body)
       updateSearchState({ datalabData: data, loading: false })
       console.log(data)
@@ -94,3 +95,22 @@ export const SearchProvider = ({ children }) => {
     </SearchContext.Provider>
   )
 }
+
+// {
+//   "startDate": "2025-01-01",
+//   "endDate": "2025-02-01",
+//   "timeUnit": "week",
+//   "keywordGroups": [
+//     {
+//       "groupName": "커피",
+//       "keywords": ["아메리카노", "카페라떼"]
+//     },
+//     {
+//       "groupName": "주스",
+//       "keywords": ["오렌지", "딸기"]
+//     }
+//   ],
+//   "device": "mo",
+//   "gender": "f",
+//   "ages": ["3", "4", "5"]
+// }
