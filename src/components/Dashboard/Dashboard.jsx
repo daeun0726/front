@@ -1,19 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
+import {
+  LineChart,
+  Line,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts'
 import { Box, Card, CardContent, Typography, Grid } from '@mui/material'
 import { useSearch } from '../../contexts/SearchContext'
 import { useFavorites } from '../../contexts/FavoritesContext'
 import { FaRegStar, FaStar } from 'react-icons/fa'
-
-const chartData = [
-  { name: '5k', value: 20 },
-  { name: '10k', value: 50 },
-  { name: '15k', value: 30 },
-  { name: '20k', value: 80 },
-  { name: '25k', value: 40 },
-  { name: '30k', value: 90 },
-]
 
 export const Dashboard = () => {
   const { searchState } = useSearch()
@@ -34,13 +33,36 @@ export const Dashboard = () => {
     setIsStarred(!isStarred)
   }
 
+  // 감정 분석 차트용 데이터
+  const sentimentData =
+    searchState.resultData?.map((item) => ({
+      date: item.date,
+      sentiment:
+        item.sentiment === 'positive'
+          ? 100
+          : item.sentiment === 'negative'
+            ? -100
+            : 0,
+    })) || []
+
+  // 검색 트렌드 차트용 데이터 (Datalab 데이터를 기반으로)
+  const searchTrendData =
+    searchState.datalabData?.results?.flatMap((result) =>
+      result.data.map((entry) => ({
+        name: `${result.title} (${entry.period})`,
+        value: entry.ratio,
+      })),
+    ) || []
+
+  useEffect(() => {}, [searchState.resultData, searchState.datalabData])
+
   return (
     <Layout>
       <ContentWrapper>
         <Box p={4}>
           <TitleContainer>
             <Typography variant="h4" gutterBottom>
-              {searchState.keyword || ''}
+              {searchState.keyword || 'Search Keyword'}
             </Typography>
             <StarIcon onClick={handleStarClick}>
               {isStarred ? (
@@ -96,22 +118,43 @@ export const Dashboard = () => {
               </Card>
             </Grid>
           </Grid>
+
+          {/* 감정 분석 차트 */}
           <Box mt={4}>
             <Typography variant="h5" gutterBottom>
-              Sales Details
+              Sentiment Analysis
             </Typography>
-            <LineChart
-              width={600}
-              height={300}
-              data={chartData}
-              margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-            >
-              <Line type="monotone" dataKey="value" stroke="#8884d8" />
-              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-            </LineChart>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={sentimentData}
+                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+              >
+                <Line type="monotone" dataKey="sentiment" stroke="#8884d8" />
+                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+
+          {/* 검색 트렌드 차트 */}
+          <Box mt={4}>
+            <Typography variant="h5" gutterBottom>
+              Search Trend
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart
+                data={searchTrendData}
+                margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
+              >
+                <Line type="monotone" dataKey="value" stroke="#82ca9d" />
+                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+              </LineChart>
+            </ResponsiveContainer>
           </Box>
         </Box>
       </ContentWrapper>
