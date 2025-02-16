@@ -13,6 +13,7 @@ export const Bookmark = () => {
   const handleBookmarkClick = (keyword) => {
     setSelectedKeyword(keyword)
     navigate(`/${encodeURIComponent(keyword)}/reportlist`)
+    console.log(reports)
   }
 
   return (
