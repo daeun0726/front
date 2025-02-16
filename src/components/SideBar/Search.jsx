@@ -90,6 +90,8 @@ export const Search = () => {
     })
     await fetchResult()
     await fetchDatalab()
+
+    setIsSearchOpen(false)
   }
 
   return (
