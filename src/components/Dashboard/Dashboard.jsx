@@ -18,11 +18,17 @@ import {
   Box,
   Typography,
   Grid,
-  Button,
   Select,
   MenuItem,
   FormControl,
   InputLabel,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
 } from '@mui/material'
 import { useSearch } from '../../contexts/SearchContext'
 import { useFavorites } from '../../contexts/FavoritesContext'
@@ -218,7 +224,7 @@ export const Dashboard = () => {
               <Typography variant="h5" gutterBottom>
                 Detailed Sentiment Analysis
               </Typography>
-              <TableContainer>
+              <TableContainer component={Paper}>
                 <Table>
                   <TableHead>
                     <TableRow>
