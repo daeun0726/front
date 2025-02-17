@@ -75,21 +75,22 @@ export const Dashboard = () => {
         })),
     ) || []
 
-  const transformedTrendData = Object.values(
-    filteredTrendData.reduce((acc, { title, period, positiveRatio }) => {
-      if (!acc[period]) {
-        acc[period] = { period }
-      }
-      acc[period][title] = positiveRatio
+  const transformedTrendData =
+    Object.values(
+      filteredTrendData.reduce((acc, { title, period, positiveRatio }) => {
+        if (!acc[period]) {
+          acc[period] = { period }
+        }
+        acc[period][title] = positiveRatio
 
-      if (!(title in titleColorMap)) {
-        titleColorMap[title] = COLORS[colorIndex % COLORS.length]
-        colorIndex++
-      }
+        if (!(title in titleColorMap)) {
+          titleColorMap[title] = COLORS[colorIndex % COLORS.length]
+          colorIndex++
+        }
 
-      return acc
-    }, {}),
-  )
+        return acc
+      }, {}),
+    ) || []
 
   const sentimentTimeChange =
     searchState.resultData?.map((item) => ({
@@ -107,14 +108,13 @@ export const Dashboard = () => {
       return acc
     },
     { positive: 0, negative: 0, neutral: 0 },
-  )
+  ) || { positive: 0, negative: 0, neutral: 0 }
 
-  const sentimentPieData = Object.entries(sentimentDistribution).map(
-    ([sentiment, count]) => ({
+  const sentimentPieData =
+    Object.entries(sentimentDistribution).map(([sentiment, count]) => ({
       sentiment,
       percentage: ((count / totalSentiments) * 100).toFixed(2),
-    }),
-  )
+    })) || []
 
   return (
     <Layout>
