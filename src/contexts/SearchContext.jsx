@@ -10,7 +10,6 @@ const initialState = {
   device: '', // 기기 유형
   gender: '', // 성별
   ages: [], // 연령대
-  // isComparisonDisabled: false, // 비교 기능 활성화 여부
   comparisonTarget: '', // 비교 대상
   comparisonKeywords: [], // 비교 대상의 연관 검색어 배열
   resultData: null, // 결과 분석 데이터

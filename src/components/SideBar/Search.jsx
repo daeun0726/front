@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { FaSearch, FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import { useSearch } from '../../contexts/SearchContext'
+import { useNavigate, Link } from 'react-router-dom'
 
 export const Search = () => {
   const { searchState, updateSearchState, fetchResult, fetchDatalab } =
@@ -24,9 +25,6 @@ export const Search = () => {
   const [comparisonKeywords, setComparisonKeywords] = useState(
     searchState.comparisonKeywords,
   )
-  // const [isComparisonDisabled, setIsComparisonDisabled] = useState(
-  //   searchState.isComparisonDisabled,
-  // )
 
   const ageLabels = {
     1: '0∼12세',
@@ -213,7 +211,6 @@ export const Search = () => {
               name="comparisonTarget"
               value={comparisonTarget}
               placeholder="비교 대상"
-              // disabled={isComparisonDisabled}
               onChange={handleInputChange}
             />
           </FieldLabel>
@@ -224,19 +221,12 @@ export const Search = () => {
               name="comparisonKeywords"
               value={comparisonKeywords.join(',')}
               placeholder="비교 대상 키워드"
-              // disabled={isComparisonDisabled}
               onChange={handleInputChange}
             />
           </FieldLabel>
-          {/* <CheckboxContainer>
-            <Checkbox
-              type="checkbox"
-              checked={isComparisonDisabled}
-              onChange={handleCheckboxChange}
-            />{' '}
-            비교대상 없음
-          </CheckboxContainer> */}
-          <SearchButton onClick={handleSearch}>Search</SearchButton>
+          <SearchButton to="/dashboard" onClick={handleSearch}>
+            Search
+          </SearchButton>
         </SearchPanel>
       )}
     </NavDropdown>
@@ -287,17 +277,6 @@ const CheckboxContainer = styled.div`
   gap: 5px;
   font-size: 10px;
 `
-
-// const Checkbox = styled.input``
-
-// const SearchButton = styled.button`
-//   background-color: black;
-//   color: white;
-//   border: none;
-//   padding: 8px 16px;
-//   border-radius: 4px;
-//   cursor: pointer;
-// `
 const FieldLabel = styled.label`
   font-size: 14px;
   color: #666;
@@ -315,13 +294,6 @@ const RadioInput = styled.div`
   gap: 10px;
   margin-top: 5px;
 `
-
-// const CheckboxGroup = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   gap: 10px;
-//   margin-top: 5px;
-// `
 
 const SearchButton = styled.button`
   margin-top: 10px;
