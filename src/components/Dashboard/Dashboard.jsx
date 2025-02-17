@@ -182,6 +182,33 @@ export const Dashboard = () => {
                   </Pie>
                 </PieChart>
               </ResponsiveContainer>
+              <Box mt={2} display="flex" justifyContent="space-around">
+                {sentimentPieData.map((data) => (
+                  <Typography
+                    key={data.sentiment}
+                    variant="body1"
+                    align="center"
+                  >
+                    <span
+                      style={{
+                        color:
+                          data.sentiment === 'positive'
+                            ? '#82ca9d'
+                            : data.sentiment === 'negative'
+                              ? '#ff6347'
+                              : '#808080',
+                      }}
+                    >
+                      {data.sentiment === 'positive'
+                        ? '긍정'
+                        : data.sentiment === 'negative'
+                          ? '부정'
+                          : '중립'}
+                    </span>
+                    : {data.percentage}%
+                  </Typography>
+                ))}
+              </Box>
             </Box>
 
             <Box mt={4}>
