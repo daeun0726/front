@@ -142,7 +142,7 @@ export const Dashboard = () => {
 
             <Box mt={4}>
               <Typography variant="h5" gutterBottom>
-                시간 별 긍정 비율 변화
+                시간 별 언급율 변화
               </Typography>
               <ResponsiveContainer width="100%" height={400}>
                 <BarChart data={transformedTrendData}>

@@ -204,26 +204,6 @@ export const Search = () => {
               ))}
             </CheckboxGroup>
           </FieldLabel>
-          <FieldLabel>
-            비교 대상
-            <SearchField
-              type="text"
-              name="comparisonTarget"
-              value={comparisonTarget}
-              placeholder="비교 대상"
-              onChange={handleInputChange}
-            />
-          </FieldLabel>
-          <FieldLabel>
-            비교 대상 키워드 (쉼표로 구분)
-            <SearchField
-              type="text"
-              name="comparisonKeywords"
-              value={comparisonKeywords.join(',')}
-              placeholder="비교 대상 키워드"
-              onChange={handleInputChange}
-            />
-          </FieldLabel>
           <SearchButton to="/dashboard" onClick={handleSearch}>
             Search
           </SearchButton>
