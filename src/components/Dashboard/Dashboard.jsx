@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import {
-  LineChart,
-  Line,
   CartesianGrid,
   XAxis,
   YAxis,
@@ -17,11 +15,6 @@ import {
 import {
   Box,
   Typography,
-  Grid,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   TableContainer,
   Table,
   TableHead,
@@ -92,13 +85,15 @@ export const Dashboard = () => {
       }, {}),
     ) || []
 
-  const sentimentTimeChange =
-    searchState.resultData?.map((item) => ({
-      date: item.date,
-      positive: item.sentiment === 'positive' ? 1 : 0,
-      negative: item.sentiment === 'negative' ? 1 : 0,
-      neutral: item.sentiment === 'neutral' ? 1 : 0,
-    })) || []
+  console.log('transformedTrendData', transformedTrendData)
+
+  // const sentimentTimeChange =
+  //   searchState.resultData?.map((item) => ({
+  //     date: item.date,
+  //     positive: item.sentiment === 'positive' ? 1 : 0,
+  //     negative: item.sentiment === 'negative' ? 1 : 0,
+  //     neutral: item.sentiment === 'neutral' ? 1 : 0,
+  //   })) || []
 
   const totalSentiments = searchState.resultData?.length || 1
 
@@ -113,8 +108,10 @@ export const Dashboard = () => {
   const sentimentPieData =
     Object.entries(sentimentDistribution).map(([sentiment, count]) => ({
       sentiment,
-      percentage: ((count / totalSentiments) * 100).toFixed(2),
+      percentage: parseFloat(((count / totalSentiments) * 100).toFixed(2)),
     })) || []
+
+  console.log(sentimentPieData)
 
   return (
     <Layout>
