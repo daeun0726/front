@@ -91,11 +91,19 @@ export const Dashboard = () => {
   //     neutral: item.sentiment === 'neutral' ? 1 : 0,
   //   })) || []
 
+  const sentimentMapping = {
+    긍정: 'positive',
+    부정: 'negative',
+    중립: 'neutral',
+  }
+
   const totalSentiments = searchState.resultData?.length || 1
 
   const sentimentDistribution = searchState.resultData?.reduce(
     (acc, item) => {
-      acc[item.sentiment] += 1
+      const sentimentInEnglish =
+        sentimentMapping[item.sentiment] || item.sentiment
+      acc[sentimentInEnglish] += 1
       return acc
     },
     { positive: 0, negative: 0, neutral: 0 },
