@@ -60,7 +60,13 @@ export const Dashboard = () => {
   const filteredTrendData =
     searchState.datalabData?.results?.flatMap((result) =>
       result.data
-        .filter((entry) => entry.period >= startDate && entry.period <= endDate)
+        .filter((entry) => {
+          const periodDate = new Date(entry.period)
+          const startDateObj = new Date(startDate)
+          const endDateObj = new Date(endDate)
+
+          return periodDate >= startDateObj && periodDate <= endDateObj
+        })
         .map((entry) => ({
           title: result.title,
           period: entry.period,
@@ -110,8 +116,6 @@ export const Dashboard = () => {
       sentiment,
       percentage: parseFloat(((count / totalSentiments) * 100).toFixed(2)),
     })) || []
-
-  console.log(sentimentPieData)
 
   return (
     <Layout>
