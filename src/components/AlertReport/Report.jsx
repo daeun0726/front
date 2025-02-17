@@ -1,7 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
-import { Box, Card, CardContent, Typography, Grid } from '@mui/material'
+import {
+  Box,
+  Typography,
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Paper,
+} from '@mui/material'
 import { useFavorites } from '../../contexts/FavoritesContext'
 
 export const Report = ({ bookmarkName, date }) => {
