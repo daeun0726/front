@@ -2,90 +2,72 @@ import React from 'react'
 import styled from 'styled-components'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 import { Box, Card, CardContent, Typography, Grid } from '@mui/material'
+import { useFavorites } from './FavoritesContext'
 
-const chartData = [
-  { name: '5k', value: 20 },
-  { name: '10k', value: 50 },
-  { name: '15k', value: 30 },
-  { name: '20k', value: 80 },
-  { name: '25k', value: 40 },
-  { name: '30k', value: 90 },
-]
+export const Report = ({ bookmarkName, date }) => {
+  const { reports, loading } = useFavorites()
+  const filteredReports = reports.filter(
+    (report) => report.keyword === bookmarkName && report.reportDate === date,
+  )
 
-export const Report = ({ bookmarkName, date }) => (
-  <Layout>
-    <ContentWrapper>
-      <Box p={4}>
-        <Typography variant="h4" gutterBottom>
-          {bookmarkName} {date}
-        </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6">Total User</Typography>
-                <Typography variant="h4">40,689</Typography>
-                <Typography color="text.secondary" variant="body2">
-                  8.5% Up from yesterday
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6">Total Order</Typography>
-                <Typography variant="h4">10,293</Typography>
-                <Typography color="text.secondary" variant="body2">
-                  1.3% Up from past week
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6">Total Sales</Typography>
-                <Typography variant="h4">$89,000</Typography>
-                <Typography color="error" variant="body2">
-                  4.3% Down from yesterday
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={3}>
-            <Card variant="outlined">
-              <CardContent>
-                <Typography variant="h6">Total Pending</Typography>
-                <Typography variant="h4">2,040</Typography>
-                <Typography color="text.secondary" variant="body2">
-                  1.8% Up from yesterday
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-        <Box mt={4}>
-          <Typography variant="h5" gutterBottom>
-            Sales Details
+  const parseReportContent = (content) => {
+    try {
+      const parsedContent = JSON.parse(content)
+      return parsedContent.map(([text, date]) => ({
+        content: text.replace(/<b>/g, '').replace(/<\/b>/g, ''),
+        date: date,
+      }))
+    } catch (error) {
+      console.error('Parsing error:', error)
+      return []
+    }
+  }
+
+  return (
+    <Layout>
+      <ContentWrapper>
+        <Box p={4}>
+          <Typography variant="h4" gutterBottom>
+            {bookmarkName} {date}
           </Typography>
-          <LineChart
-            width={600}
-            height={300}
-            data={chartData}
-            margin={{ top: 5, right: 20, bottom: 5, left: 0 }}
-          >
-            <Line type="monotone" dataKey="value" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-          </LineChart>
+
+          {loading ? (
+            <Typography variant="h6" color="text.secondary">
+              Loading reports...
+            </Typography>
+          ) : (
+            <Box mt={4}>
+              <Typography variant="h5" gutterBottom>
+                감성 변화
+              </Typography>
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Date</TableCell>
+                      <TableCell>Content</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {filteredReports?.map((item) => {
+                      const reportData = parseReportContent(item.reportContent)
+                      return reportData.map((report, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{report.date}</TableCell>
+                          <TableCell>{report.content}</TableCell>
+                        </TableRow>
+                      ))
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Box>
+          )}
         </Box>
-      </Box>
-    </ContentWrapper>
-  </Layout>
-)
+      </ContentWrapper>
+    </Layout>
+  )
+}
 const Layout = styled.div`
   background-color: aqua;
   display: grid;
