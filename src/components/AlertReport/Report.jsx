@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts'
 import { Box, Card, CardContent, Typography, Grid } from '@mui/material'
-import { useFavorites } from './FavoritesContext'
+import { useFavorites } from '../../contexts/FavoritesContext'
 
 export const Report = ({ bookmarkName, date }) => {
   const { reports, loading } = useFavorites()
